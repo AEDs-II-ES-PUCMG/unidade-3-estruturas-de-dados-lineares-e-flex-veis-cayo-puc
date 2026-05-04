@@ -1,4 +1,6 @@
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pilha<E> {
 
@@ -18,7 +20,6 @@ public class Pilha<E> {
 	}
 
 	public void empilhar(E item) {
-
 		topo = new Celula<E>(item, topo);
 	}
 
@@ -53,8 +54,30 @@ public class Pilha<E> {
 	 * @throws IllegalArgumentException se a pilha não contém numItens elementos.
 	 */
 	public Pilha<E> subPilha(int numItens) {
-		
-		// TODO
-		return null;
+		if (numItens < 0) {
+			throw new IllegalArgumentException("O número de itens não pode ser negativo.");
+		}
+		Celula<E> atual = topo;
+		List<E> lista = new ArrayList<>();
+		Pilha<E> pilhinha = new Pilha<>();
+		for (int i = 0; i < numItens; i++) {
+			if (atual == fundo) {
+				throw new IllegalArgumentException("A pilha nao contem " + numItens + " elementos.");
+			}
+			lista.add(atual.getItem());
+			atual = atual.getProximo();
+		}
+		for (int i = numItens - 1; i >= 0; i--) {
+			pilhinha.empilhar(lista.get(i));
+		}
+    	return pilhinha;
+	}
+
+	public void imprimir() {
+		Celula<E> atual = topo;
+		while (atual != fundo) {
+			System.out.println(atual.getItem());
+			atual = atual.getProximo();
+		}
 	}
 }

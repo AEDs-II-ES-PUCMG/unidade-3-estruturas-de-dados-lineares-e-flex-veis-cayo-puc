@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.security.interfaces.ECKey;
 
 public class App {
 
@@ -207,13 +208,18 @@ public class App {
      * @param pedido O pedido que deve ser finalizado.
      */
     public static void finalizarPedido(Pedido pedido) {
-    	
-    	// TODO
+    	if(pedido == null){
+            throw new IllegalArgumentException("O pedido não pode ser nulo");
+        }
+        pedido.toString();
+    	pilhaPedidos.empilhar(pedido);
     }
     
     public static void listarProdutosPedidosRecentes() {
-    	
-    	// TODO
+        System.out.println("Quantos produtos deseja ver?");
+        int num = teclado.nextInt();
+    	Pilha<Pedido> pedidosRecentes = pilhaPedidos.subPilha(num);
+        pedidosRecentes.imprimir();
     }
     
 	public static void main(String[] args) {
