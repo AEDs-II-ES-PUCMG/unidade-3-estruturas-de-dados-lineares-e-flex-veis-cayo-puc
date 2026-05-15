@@ -22,6 +22,9 @@ public class App {
 
     /** Pilha de pedidos */
     static Pilha<Pedido> pilhaPedidos = new Pilha<>();
+
+    /** Fila de pedidos */
+    static Fila<Pedido> filaPedidos = new Fila<>();
         
     static void limparTela() {
         System.out.print("\033[H\033[2J");
@@ -213,6 +216,7 @@ public class App {
         }
         pedido.toString();
     	pilhaPedidos.empilhar(pedido);
+        filaPedidos.enfileirar(pedido);
     }
     
     public static void listarProdutosPedidosRecentes() {
