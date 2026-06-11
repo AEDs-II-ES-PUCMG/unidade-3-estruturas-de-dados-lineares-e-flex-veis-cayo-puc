@@ -68,19 +68,24 @@ public class Fila<E> {
 			}
 		} 	
 	}
+	
     /*implemente na classe da sua Fila um método genérico (ou específico para o teste) capaz de iterar sobre
     os elementos e contar quantas ocorrências de um determinado caractere existem na lista atual.  */
-    public int numeroItens(){
+    public int numeroDeOcorrencias(E item){
         int cont=0;
         Celula<E> temp = frente;
         if (vazia()) {
 			throw new NoSuchElementException("Nao há nenhum item na lista!");
 		}
         while(temp != tras){
-            temp = temp.getProximo();
-            cont++;
+			if(temp.getItem().equals(item)){
+				cont++;
+			}
+            temp = temp.getProximo(); 
         }
-        cont++; //conta o ultimo elemento
+        if(temp.getItem().equals(item)){//conta o ultimo elemento se for igual
+			cont++;
+		} 
         return cont;
     }
 
