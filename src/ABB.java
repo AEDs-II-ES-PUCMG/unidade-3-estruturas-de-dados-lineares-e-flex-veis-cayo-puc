@@ -98,7 +98,9 @@ public class ABB<K, V> implements IMapeamento<K, V> {
         /// O método "inserir" recursivo receberá, como primeiro parâmetro, a raiz atual da árvore;
     	/// como segundo parâmetro, a chave do item que será adicionado à árvore; e como terceiro parâmetro, o item.
         /// Por fim, a raiz atual da árvore é atualizada, com a raiz retornada pelo método "inserir" recursivo.
-    	throw new UnsupportedOperationException("TODO: Implementar o método inserir");
+    	raiz = inserir(raiz, chave, item);
+        tamanho++;
+        return tamanho;
 	}
 
     /**
@@ -112,10 +114,9 @@ public class ABB<K, V> implements IMapeamento<K, V> {
     protected No<K, V> inserir(No<K, V> raizArvore, K chave, V item) {
 
     	int comparacao;
-
         /// Se a raiz da árvore ou sub-árvore for null, a árvore/sub-árvore está vazia e então um novo item é inserido.
         if (raizArvore == null) {
-        	// TODO: Implementar
+        	raizArvore = new No<>(chave, item);
         } else {
         	comparacao = comparador.compare(chave, raizArvore.getChave());
 
@@ -124,17 +125,18 @@ public class ABB<K, V> implements IMapeamento<K, V> {
         		/// a chave do item armazenado na raiz da árvore:
         		/// adicione esse novo item à sub-árvore esquerda;
         		/// e atualize a referência para a sub-árvore esquerda modificada.
-        		// TODO: Implementar
+                raizArvore.setEsquerda(inserir(raizArvore.getEsquerda(), chave, item));
+        		
         	} else if (comparacao > 0) {
         		/// Se a chave do item que deverá ser inserido na árvore for maior do que
         		/// a chave do item armazenado na raiz da árvore:
         		/// adicione esse novo item à sub-árvore direita;
         		/// e atualize a referência para a sub-árvore direita modificada.
-        		// TODO: Implementar
+        		raizArvore.setDireita(inserir(raizArvore.getDireita(), chave, item));
         	} else {
         		/// A chave do item armazenado na raiz da árvore
         		/// é igual à chave do novo item que deveria ser inserido na árvore.
-        		// TODO: Implementar
+        		throw new IllegalArgumentException("Chave repetida");
         	}
         }
 
@@ -178,16 +180,14 @@ public class ABB<K, V> implements IMapeamento<K, V> {
      * @return o valor associado ao item removido.
 	 */
 	public V remover(K chave) {
-
-		V removido = pesquisar(chave);
-
 		/// Chama o método recursivo "remover", que será responsável por
 		/// pesquisar o item que apresenta a chave passada como parâmetro na árvore e retirá-lo da árvore.
         /// O método "remover" recursivo receberá, como primeiro parâmetro, a raiz atual da árvore;
     	/// e, como segundo parâmetro, a chave do item que deverá ser localizado e retirado dessa árvore.
     	/// Por fim, a raiz atual da árvore é atualizada, com a raiz retornada pelo método "remover" recursivo.
-		// TODO: Implementar
-
+        V removido = pesquisar(chave);
+		raiz = remover(raiz, chave);
+        tamanho--;
 		return removido;
 	}
 
@@ -204,7 +204,7 @@ public class ABB<K, V> implements IMapeamento<K, V> {
         /// Se a raiz da árvore ou sub-árvore for null, a árvore está vazia e o item, que deveria ser retirado dessa árvore, não foi encontrado.
         /// Nesse caso, deve-se lançar uma exceção.
         if (raizArvore == null) {
-        	// TODO: Implementar
+        	throw new IllegalArgumentException("Arvore vazia ou item nao encontrado");
         }
 
         comparacao = comparador.compare(chaveRemover, raizArvore.getChave());
@@ -215,11 +215,11 @@ public class ABB<K, V> implements IMapeamento<K, V> {
         	if (raizArvore.getDireita() == null) {
         		/// O nó da árvore que será retirado não possui descendentes à direita.
                 /// Nesse caso, os descendentes à esquerda do nó que está sendo retirado da árvore passarão a ser descendentes do nó-pai do nó que está sendo retirado.
-        		// TODO: Implementar
+        		return raizArvore.getEsquerda();
         	} else if (raizArvore.getEsquerda() == null) {
                 /// O nó da árvore que será retirado não possui descendentes à esquerda.
                 /// Nesse caso, os descendentes à direita do nó que está sendo retirado da árvore passarão a ser descendentes do nó-pai do nó que está sendo retirado.
-        		// TODO: Implementar
+                return raizArvore.getDireita();
         	} else {
             	/// O nó que está sendo retirado da árvore possui descendentes à esquerda e à direita.
                 /// Nesse caso, o antecessor do nó que está sendo retirado é localizado na sub-árvore esquerda desse nó.
@@ -229,18 +229,19 @@ public class ABB<K, V> implements IMapeamento<K, V> {
                 /// Depois de ser localizado na sub-árvore esquerda do nó que está sendo retirado,
                 /// o antecessor desse nó o substitui.
                 /// A sub-árvore esquerda do nó que foi retirado é atualizada com a remoção do antecessor.
-        		// TODO: Implementar
+                raizArvore.setEsquerda(removerNoAntecessor(raizArvore, raizArvore.getEsquerda()));
         	}
         } else if (comparacao < 0) {
         	/// Se a chave do item que deverá ser localizado e retirado da árvore
         	/// for menor do que a chave do item armazenado na raiz da árvore:
         	/// pesquise e retire esse item da sub-árvore esquerda.
-        	// TODO: Implementar
+            raizArvore.setEsquerda(remover(raizArvore.getEsquerda(), chaveRemover));
+        	
         } else {
         	/// Se a chave do item que deverá ser localizado e retirado da árvore
         	/// for maior do que a chave do item armazenado na raiz da árvore:
         	/// pesquise e retire esse item da sub-árvore direita.
-        	// TODO: Implementar
+        	raizArvore.setDireita(remover(raizArvore.getDireita(), chaveRemover));
         }
 
         /// Retorna a raiz atualizada da árvore ou sub-árvore da qual o item foi retirado.
@@ -260,15 +261,18 @@ public class ABB<K, V> implements IMapeamento<K, V> {
      * @return a raiz atualizada da árvore ou sub-árvore após a remoção do antecessor do nó que foi retirado da árvore.
      */
     protected No<K, V> removerNoAntecessor(No<K, V> itemRetirar, No<K, V> raizArvore) {
+
         /// Se o antecessor do nó que deverá ser retirado da árvore ainda não foi encontrado...
         if (raizArvore.getDireita() != null) {
             /// Pesquise o antecessor na sub-árvore direita.
-        	// TODO: Implementar
+        	raizArvore.setDireita(removerNoAntecessor(itemRetirar, raizArvore.getDireita()));
         } else {
         	/// O antecessor do nó que deverá ser retirado da árvore foi encontrado e deverá substitui-lo.
         	/// A raiz da árvore ou sub-árvore é atualizada com os descendentes à esquerda do antecessor.
         	/// Ou seja, retira-se o antecessor da árvore.
-        	// TODO: Implementar
+            itemRetirar.setChave(raizArvore.getChave());
+            itemRetirar.setItem(raizArvore.getItem());
+        	return raizArvore.getEsquerda();
         }
         return raizArvore;
     }
