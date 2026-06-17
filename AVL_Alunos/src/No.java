@@ -72,15 +72,12 @@ public class No<K, V> {
 	 * consistente com a nova organização dos nós.
 	 */
 	public void setAltura() {
-
-		int alturaEsquerda, alturaDireita;
-
-		alturaEsquerda = getAltura(esquerda);
-		alturaDireita = getAltura(direita);
-
-		// TODO: Implementar
 		// Calcule a altura deste nó como sendo 1 mais a maior altura entre
 		// "alturaEsquerda" e "alturaDireita", e atribua o resultado ao atributo "altura".
+		int alturaEsquerda, alturaDireita;
+		alturaEsquerda = getAltura(esquerda);
+		alturaDireita = getAltura(direita);
+		this.altura = 1 + Math.MAX(alturaEsquerda, alturaDireita);
 	}
 
 	/**
@@ -98,14 +95,10 @@ public class No<K, V> {
 	 * @return a diferença entre a altura da sub-árvore esquerda e a altura da sub-árvore direita deste nó.
 	 */
 	public int getFatorBalanceamento() {
-
+		// Retorne a diferença entre "alturaEsquerda" e "alturaDireita".
 		int alturaEsquerda, alturaDireita;
-
 		alturaEsquerda = getAltura(esquerda);
 		alturaDireita = getAltura(direita);
-
-		// TODO: Implementar
-		// Retorne a diferença entre "alturaEsquerda" e "alturaDireita".
-		throw new UnsupportedOperationException("TODO: Implementar o método getFatorBalanceamento");
+		return (alturaEsquerda - alturaDireita);
 	}
 }

@@ -16,7 +16,7 @@ public class AVL<K, V> extends ABB<K, V> {
 
     /**
     * Método recursivo responsável por adicionar um item à árvore.
-    * @param raizArvore: raiz da árvore ou sub-árvore em que o item será adicionado.
+    * @param raizArvore: raiz da árvore ou sub-árvore em que  o item será adicionado.
     * @param item: item que deverá ser adicionado à árvore.
     * @return a raiz atualizada da árvore ou sub-árvore balanceada AVL em que o item foi adicionado.
     */
@@ -86,18 +86,25 @@ public class AVL<K, V> extends ABB<K, V> {
 
 			if (fatorBalanceamento == 2) {
 				// árvore desbalanceada à esquerda.
-				// TODO: Implementar
-				// Verifique o fator de balanceamento do filho à esquerda da raiz da árvore.
+                // Verifique o fator de balanceamento do filho à esquerda da raiz da árvore.
 				// Se esse fator de balanceamento indicar que o filho está pendendo para a direita,
 				// realize, antes de tudo, uma rotação simples à esquerda nesse filho (rotação dupla).
 				// Em seguida (em qualquer caso), realize uma rotação simples à direita na raiz da árvore.
+				if(raizArvore.getEsquerda().getFatorBalanceamento() < 0 ){
+                    raizArvore.setEsquerda(rotacionarEsquerda(raizArvore.getEsquerda()));
+                }
+                raizArvore = rotacionarDireita(raizArvore);
+				
 			} else if (fatorBalanceamento == -2) {
 				// árvore desbalanceada à direita.
-				// TODO: Implementar
 				// Verifique o fator de balanceamento do filho à direita da raiz da árvore.
 				// Se esse fator de balanceamento indicar que o filho está pendendo para a esquerda,
 				// realize, antes de tudo, uma rotação simples à direita nesse filho (rotação dupla).
 				// Em seguida (em qualquer caso), realize uma rotação simples à esquerda na raiz da árvore.
+                if(raizArvore.getDireita().getFatorBalanceamento() > 0){
+                    raizArvore.setDireita(rotacionarDireita(raizArvore.getDireita()));
+                }
+                raizArvore = rotacionarEsquerda(raizArvore);
 			} else
 				raizArvore.setAltura();
 		}
@@ -126,18 +133,21 @@ public class AVL<K, V> extends ABB<K, V> {
      * @return a nova raiz da sub-árvore após a rotação (o nó "u").
      */
 	private No<K, V> rotacionarDireita(No<K, V> p) {
-
-		No<K, V> u;
-		No<K, V> filhoEsquerdaDireita;  // triângulo vermelho
-
-		// TODO: Implementar
-		// 1) Guarde, em "u", o filho à esquerda de "p";
+        // 1) Guarde, em "u", o filho à esquerda de "p";
 		// 2) Guarde, em "filhoEsquerdaDireita", o filho à direita de "u";
 		// 3) Faça "filhoEsquerdaDireita" passar a ser o filho à esquerda de "p";
 		// 4) Faça "p" passar a ser o filho à direita de "u";
 		// 5) Atualize a altura de "p" e, em seguida, a altura de "u";
 		// 6) Retorne "u", a nova raiz da sub-árvore.
-		throw new UnsupportedOperationException("TODO: Implementar o método rotacionarDireita");
+		No<K, V> u;
+		No<K, V> filhoEsquerdaDireita;  // triângulo vermelho
+		u = p.getEsquerda();
+        filhoEsquerdaDireita = u.getDireita();
+        p.setEsquerda(filhoEsquerdaDireita);
+        u.setDireita(p);
+        p.setAltura();
+        u.setAltura();
+		return u;
 	}
 
     /**
@@ -162,17 +172,21 @@ public class AVL<K, V> extends ABB<K, V> {
      * @return a nova raiz da sub-árvore após a rotação (o nó "z").
      */
 	private No<K, V> rotacionarEsquerda(No<K, V> p) {
-
-		No<K, V> z;
-		No<K, V> filhoDireitaEsquerda;  // triângulo vermelho
-
-		// TODO: Implementar
-		// 1) Guarde, em "z", o filho à direita de "p";
+        // 1) Guarde, em "z", o filho à direita de "p";
 		// 2) Guarde, em "filhoDireitaEsquerda", o filho à esquerda de "z";
 		// 3) Faça "filhoDireitaEsquerda" passar a ser o filho à direita de "p";
 		// 4) Faça "p" passar a ser o filho à esquerda de "z";
 		// 5) Atualize a altura de "p" e, em seguida, a altura de "z";
 		// 6) Retorne "z", a nova raiz da sub-árvore.
-		throw new UnsupportedOperationException("TODO: Implementar o método rotacionarEsquerda");
+		No<K, V> z;
+		No<K, V> filhoDireitaEsquerda;  // triângulo vermelho
+        z= p.getDireita();
+        filhoDireitaEsquerda = z.getEsquerda();
+        p.setDireita(filhoDireitaEsquerda);
+        z.setEsquerda(p);
+        p.setAltura();
+        z.setAltura();
+        return z;
+
 	}
 }
